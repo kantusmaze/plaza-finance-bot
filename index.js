@@ -85,22 +85,20 @@ function findCookieForAddress(cookies, address) {
   return null;  // Return null if no matching cookie is found
 }
 
-// Claim Faucet Function using the matched cookie
-async function claimFaucet(address, cookie) {
+// Function to claim Faucet
+async function claimFaucet(address) {
   try {
-    // Encode the cookie string to ensure it has no invalid characters
-    const encodedCookie = encodeURIComponent(cookie);
-
-    const response = await axios.post('https://testnet.plaza.finance/api/faucet-queue', null, {
-      params: { address: address },
+    const response = await axios.post('https://api.plaza.finance/faucet/queue', {
+      address: address
+    }, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
         'Content-Type': 'application/json',
-        'Cookie': encodedCookie  // Attach the encoded cookie here
+		'x-plaza-api-key': 'bfc7b70e-66ad-4524-9bb6-733716c4da94',
       }
     });
 
-    console.log(chalk.green(`Faucet claim initiated`));
+    console.log(chalk.green(`Faucet claim initiated successfully for ${address}`));
     console.log(chalk.yellow('Claim Response:', response.data));
   } catch (error) {
     if (error.response && error.response.status === 429) {
@@ -108,7 +106,7 @@ async function claimFaucet(address, cookie) {
     } else if (error.response && error.response.status === 403) {
       console.error(chalk.red('403 Forbidden: You may have hit a rate limit or are blocked.'));
     } else {
-      console.error(chalk.red(`Error claiming faucet`));
+      console.error(chalk.red(`Error claiming faucet: ${error.message}`));
     }
   }
 }
@@ -268,13 +266,8 @@ async function processWallets() {
     console.log(chalk.yellow(`\n=== CYCLE STARTED FOR WALLET: ${chalk.blue(walletAddress)} ===`));
 
     // Step 1: Claim the faucet
-    const cookie = findCookieForAddress(cookies, walletAddress);
-    if (cookie) {
-      console.log(chalk.green(`Found cookie for ${walletAddress}. Claiming faucet...`));
-      await claimFaucet(walletAddress, cookie);
-    } else {
-      console.error(chalk.red(`No matching cookie for ${walletAddress}. Skipping faucet claim.`));
-    }
+    console.log(chalk.green(`Claiming faucet for ${walletAddress}...`));
+    await claimFaucet(walletAddress);
 
     // Continue with other processes even if faucet is skipped
 
