@@ -61,29 +61,6 @@ const contract = new web3.eth.Contract(contractAbi, contractAddress);
 // ERC-20 ABI for `allowance`, `approve`, and `balanceOf`
 const erc20Abi = [{"constant":true,"inputs":[{"name":"_owner","type":"address"},{"name":"_spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"type":"function"},{"constant":false,"inputs":[{"name":"_spender","type":"address"},{"name":"_value","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"type":"function"},{"constant":true,"inputs":[{"name":"_owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"type":"function"}];
 
-// Path to the cookies file
-const cookiesFilePath = './cookies.txt';
-
-// Function to read the cookies from a text file
-function readCookiesFromFile(filePath) {
-  try {
-    const data = fs.readFileSync(filePath, 'utf8');
-    return data.split('\n').filter(line => line.trim() !== '');  // Split lines and filter empty lines
-  } catch (error) {
-    console.error(chalk.red(`Error reading cookies from file: ${error.message}`));
-    return [];
-  }
-}
-
-// Function to find the appropriate cookie based on the address
-function findCookieForAddress(cookies, address) {
-  for (const cookie of cookies) {
-    if (cookie.includes(address)) {
-      return cookie;  // Return the matching cookie
-    }
-  }
-  return null;  // Return null if no matching cookie is found
-}
 
 // Function to claim Faucet
 async function claimFaucet(address) {
@@ -257,14 +234,13 @@ async function processWallets() {
 
   printHeader();
   const privateKeys = readPrivateKeys();
-  const cookies = readCookiesFromFile(cookiesFilePath);
 
   for (const privateKey of privateKeys) {
     const account = web3.eth.accounts.privateKeyToAccount(privateKey);
     const walletAddress = account.address;
 
     console.log(chalk.yellow(`\n=== CYCLE STARTED FOR WALLET: ${chalk.blue(walletAddress)} ===`));
-
+	
     // Step 1: Claim the faucet
     console.log(chalk.green(`Claiming faucet for ${walletAddress}...`));
     await claimFaucet(walletAddress);
