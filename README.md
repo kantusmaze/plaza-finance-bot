@@ -1,6 +1,8 @@
 
 # Auto Daily Plaza Finance Bot
 
+Register : https://testnet.plaza.finance/rewards/a0MndhdkWSCb
+
 This script automates interactions with Plaza Finance's faucet, ensuring unlimited spending for the wstETH token, creating Bond and Leverage tokens, and redeeming a portion of those tokens. It processes multiple wallets in a cycle, with a delay of 6 hours after all wallets are processed.
 
 ## Features
