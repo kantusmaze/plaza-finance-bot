@@ -19,7 +19,7 @@ This script automates interactions with Plaza Finance's faucet, ensuring unlimit
 Install the required Node.js modules:
 
 ```bash
-npm install web3 axios chalk fs
+npm install web3@1.8.0 axios chalk@2 fs
 ```
 
 ## Setup
