@@ -1,7 +1,7 @@
 
 # Auto Daily Plaza Finance Bot
 
-Register : https://testnet.plaza.finance/rewards/a0MndhdkWSCb
+Register : https://testnet.plaza.finance/rewards/RdPDMkEuBR84
 
 This script automates interactions with Plaza Finance's faucet, ensuring unlimited spending for the wstETH token, swapping 80% of wstETH to bondETH, 10% to leverage tokens, creating Bond and Leverage tokens, and redeeming a portion of those tokens. It processes multiple wallets in a cycle, with a delay of 6 hours after all wallets are processed.
 
@@ -60,6 +60,12 @@ For example:
 
 ## Usage
 
+Create a screen:
+
+```bash
+screen -S plaza
+```
+
 Run the script with Node.js:
 
 ```bash
@@ -73,6 +79,11 @@ node index-proxy.js
 ```
 
 The script will run once immediately and will repeat every 6 hours.
+
+- To minmize the screen, press `Ctrl+A+D`
+- To return the screen, enter command: `screen -r plaza`
+- To stop and kill the bot, press `CTRL+C` inside the screen & run this command: `screen -XS plaza quit`
+
 
 ## Logs
 
@@ -90,3 +101,5 @@ All successful transactions and errors are printed in the console with the appro
 
 - Ensure your private keys are correct, as invalid keys will result in errors.
 - If using proxies, make sure the number of proxies in `proxies.txt` matches the number of private keys in `private_keys.txt`.
+
+[source: forked from main Repo](https://github.com/ganjsmoke/plaza-finance-bot)
